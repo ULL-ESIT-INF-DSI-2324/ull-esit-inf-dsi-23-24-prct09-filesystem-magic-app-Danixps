@@ -29,22 +29,63 @@ export enum LineType {
     Planeswalker = 'planeswalker'
 }
 
-export class Card {
-    constructor(
-        public id: number,
-        public name: string,
-        public manaCost: number,
-        public color: Color,
-        public type: LineType,
-        public rarity: Rarity,
-        public rulesText: string,
-        public marketValue: number,
-        //powerandtoughness quiero que sea un array de numeros de 2 elementos
-        public powerandtoughness?: [number, number],
-        public loyalty?: number,
-    ) {}
+export interface Card_Characteristics {
+    id: number,
+    color: Color,
+    type: LineType,
+    rarity: Rarity,
+    rulesText: string,
+    marketValue: number,
+    powerandtoughness?: [number, number],
+    loyalty?: number,
+}
+
+export class Card implements Card_Characteristics {
+    id: number;
+    name: string;
+    manaCost: number;
+    color: Color;
+    type: LineType;
+    rarity: Rarity;
+    rulesText: string;
+    marketValue: number;
+    powerandtoughness?: [number, number];
+    loyalty?: number;
+
+    constructor(id: number, name: string, manaCost: number, color: Color, type: LineType, rarity: Rarity, rulesText: string, marketValue: number, powerandtoughness?: [number, number], loyalty?: number) {
+        this.id = id;
+        this.name = name;
+        this.manaCost = manaCost;
+        this.color = color;
+        this.type = type;
+        this.rarity = rarity;
+        this.rulesText = rulesText;
+        this.marketValue = marketValue;
+        this.powerandtoughness = powerandtoughness;
+        this.loyalty = loyalty;
+    }
 
     public guardarCarta(usuario: string) {
+        if (!Object.values(Rarity).includes(this.rarity as Rarity)) {
+            console.error(chalk.red(`Invalid rarity: ${this.rarity}, change it to one of the following: ${Object.values(Rarity)} for creating a card`));
+            return `Invalid rarity: ${this.rarity}, change it to one of the following: ${Object.values(Rarity)} for creating a card`;
+        }
+        if (!Object.values(Color).includes(this.color as Color)) {
+            console.error(chalk.red(`Invalid color: ${this.color}, change it to one of the following: ${Object.values(Color)} for creating a card`));
+            return `Invalid color: ${this.color}, change it to one of the following: ${Object.values(Color)} for creating a card`;
+        }
+        if (!Object.values(LineType).includes(this.type as LineType)) {
+            console.error(chalk.red(`Invalid type: ${this.type}, change it to one of the following: ${Object.values(LineType)} for creating a card`));
+            return `Invalid type: ${this.type}, change it to one of the following: ${Object.values(LineType)} for creating a card`;
+        }
+        if (this.powerandtoughness && this.type !== LineType.Criatura) {
+            console.error(chalk.red(`Power/Toughness is only for criatura cards`));
+            return `Power/Toughness is only for criatura cards`;
+        }
+        if (this.loyalty && this.type !== LineType.Planeswalker) {
+            console.error(chalk.red(`Loyalty is only for planeswalker cards`));
+            return `Loyalty is only for planeswalker cards`;
+        }
         const directorioUsuario = `./${usuario}`;
         if (!fs.existsSync(directorioUsuario)) {
             fs.mkdirSync(directorioUsuario);
@@ -62,9 +103,9 @@ export class Card {
         
  
     }
-    public modificarCarta(usuario: string , id: number) {
+    public modificarCarta(usuario: string) {
         const directorioUsuario = `./${usuario}`;
-        const rutaArchivoid = `${directorioUsuario}/${id}.json`;
+        const rutaArchivoid = `${directorioUsuario}/${this.id}.json`;
         if (!fs.existsSync(rutaArchivoid)) {
             console.error(chalk.red(`Card not found at ${usuario} collection`));
             return;
@@ -73,14 +114,14 @@ export class Card {
         fs.writeFileSync(rutaArchivo, JSON.stringify(this, null, 2));
         console.log(chalk.green(`Card updated at ${usuario} collection!`));
     }
-    public eliminarcarta(usuario: string , id: number) {
+    public eliminarcarta(usuario: string) {
         const directorioUsuario = `./${usuario}`;
-            const rutaArchivo = `${directorioUsuario}/${id}.json`;
+            const rutaArchivo = `${directorioUsuario}/${this.id}.json`;
             if (fs.existsSync(rutaArchivo)) {
                 fs.unlinkSync(rutaArchivo);
-                console.log(chalk.green(`Card id ${id} removed from ${usuario} collection!`));
+                console.log(chalk.green(`Card id ${this.id} removed from ${usuario} collection!`));
             } else {
-                console.error(chalk.red(`Card id ${id} not found at ${usuario} collection`));
+                console.error(chalk.red(`Card id ${this.id} not found at ${usuario} collection`));
             }
     }
 }

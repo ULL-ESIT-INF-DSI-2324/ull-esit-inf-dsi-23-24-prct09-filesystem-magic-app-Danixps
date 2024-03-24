@@ -4,8 +4,9 @@ import { execSync } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
 import { Card, Color, LineType, Rarity } from '../src/card.js';
 
-describe('Comandos de la aplicación', () => {
-    it('Comando add con una carta nueva', () => {
+describe('Aplicación Magic Cards', () => {
+    it('Añadir una carta 1', () => {
+
         const card = new Card(
             777,
             'Black Lotus',
@@ -17,8 +18,24 @@ describe('Comandos de la aplicación', () => {
             1234,
             [5, 11]
         );
+        card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
+        expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
+    });
+    it('Añadir una carta 2. Intento de añadir con Fuerza/Resistencia en una línea de tipo que es distinta a criatura', () => {
 
-        expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!');
+        const card = new Card(
+            1,
+            'Black Lotus',
+            69,
+            Color.Multicolor,
+            LineType.Planeswalker,
+            Rarity.Common,
+            'Tap to add three mana of any color to your mana pool.',
+            1234,
+            [5, 11]
+        );
+        card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
+        expect(card.guardarCarta('danixps')).to.be.equal('Power/Toughness is only for criatura cards'); //ahora si se añade por primera vez
     });
     // it ('Comando add con una nueva carta', () => {
     //     execSync('node dist/index.js add --user "danixps" --id 778 --name "Black Lotus" --manaCost 69 --color "multicolor" --type "criatura" --rarity rara --rulesText "Tap to add three mana of any color to your mana pool." --marketValue 1234 --powerandtoughness 5 11');

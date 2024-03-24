@@ -91,27 +91,7 @@ yargs(process.argv.slice(2))
             },
         },
         handler: (argv) => {
-            if (!Object.values(Rarity).includes(argv.rarity as Rarity)) {
-                console.error(`Invalid rarity: ${argv.rarity}, change it to one of the following: ${Object.values(Rarity)} for creating a card`);
-                return;
-            }
-            if (!Object.values(Color).includes(argv.color as Color)) {
-                console.error(`Invalid color: ${argv.color}, change it to one of the following: ${Object.values(Color)} for creating a card`);
-                return;
-            }
-            if (!Object.values(LineType).includes(argv.type as LineType)) {
-                console.error(`Invalid type: ${argv.type}, change it to one of the following: ${Object.values(LineType)} for creating a card`);
-                return;
-            }
-            if (argv.powerandtoughness && argv.type !== LineType.Criatura) {
-                console.error(`Power/Toughness is only for criatura cards`);
-                return;
-            }
-            if (argv.loyalty && argv.type !== LineType.Planeswalker) {
-                console.error(`Loyalty is only for planeswalker cards`);
-                return;
-            }
-        
+            
             const carta = new Card(
                 argv.id,
                 argv.name,
@@ -219,8 +199,7 @@ yargs(process.argv.slice(2))
                 argv.powerandtoughness,
                 argv.loyalty
             );
-            //comprobar que existe una carta con el id
-            carta.modificarCarta(argv.user, argv.id);
+            carta.modificarCarta(argv.user);
         },
     })
     .command({
@@ -251,7 +230,7 @@ yargs(process.argv.slice(2))
                 0,
             );
 
-            carta.eliminarcarta(argv.user, argv.id);
+            carta.eliminarcarta(argv.user);
         },
     })
     .command({
