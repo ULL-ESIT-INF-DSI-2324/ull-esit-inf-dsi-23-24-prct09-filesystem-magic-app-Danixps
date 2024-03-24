@@ -6,7 +6,7 @@ import { Card, Color, LineType, Rarity } from '../src/card.js';
 
 describe('Comandos de la aplicación', () => {
     it('Comando add con una carta nueva', () => {
-        execSync('node dist/index.js add --user "danixps" --id 777 --name "Black Lotus" --manaCost 69 --color "multicolor" --type "criatura" --rarity rara --rulesText "Tap to add three mana of any color to your mana pool." --marketValue 1234 --powerandtoughness 5 11');
+        execSync('node ./dist/index.js add --user "danixps" --id 777 --name "Black Lotus" --manaCost 69 --color "multicolor" --type "criatura" --rarity rara --rulesText "Tap to add three mana of any color to your mana pool." --marketValue 1234 --powerandtoughness 5 11');
 
         expect(existsSync('./danixps/777.json')).to.be.true;
         const cardData = JSON.parse(readFileSync('./danixps/777.json', 'utf-8'));
