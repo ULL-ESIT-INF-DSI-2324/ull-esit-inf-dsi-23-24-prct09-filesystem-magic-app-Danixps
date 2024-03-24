@@ -3,8 +3,9 @@
   "name": "White Panter",
   "manaCost": 20,
   "color": "incoloro",
-  "type": "artefacto",
+  "type": "planeswalker",
   "rarity": "mítica",
   "rulesText": "Tap to atack the enemy and gain 5 life points.",
-  "marketValue": 1234
+  "marketValue": 1234,
+  "loyalty": 10
 }

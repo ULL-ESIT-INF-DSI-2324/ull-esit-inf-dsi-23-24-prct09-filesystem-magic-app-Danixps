@@ -46,6 +46,21 @@ describe('Aplicación Magic Cards', () => {
             777,
             'Black Lotus',
             69,
+            Color.Black,
+            LineType.Tierra,
+            Rarity.Rare,
+            'Tap to delete the enemy creature.',
+            100
+        );
+        card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
+        expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
+    });
+    it('Añadir una carta. Criatura con Fuerza/Resistencia con éxito', () => {
+
+        const card = new Card(
+            777,
+            'Black Lotus',
+            69,
             Color.Multicolor,
             LineType.Criatura,
             Rarity.Common,
@@ -56,17 +71,19 @@ describe('Aplicación Magic Cards', () => {
         card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
         expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
     });
-    it('Añadir una carta. Con éxito', () => {
+    it('Añadir una carta. Planeswalker con éxito', () => {
 
         const card = new Card(
             1,
             'White Panter',
             20,
             Color.Colorless,
-            LineType.Artefacto,
+            LineType.Planeswalker,
             Rarity.Mythic,
             'Tap to atack the enemy and gain 5 life points.',
-            1234
+            1234,
+            undefined,
+            10 //puntos loyalty
         );
         card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
         expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
