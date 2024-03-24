@@ -58,8 +58,9 @@ export class Card {
         const rutaArchivo = `${directorioUsuario}/${this.id}.json`;
         fs.writeFileSync(rutaArchivo, JSON.stringify(this, null, 2));
         console.log(chalk.green(`New card saved at ${usuario} collection!`));
+        return `New card saved at ${usuario} collection!`;
         
-        return; // Add this line to return void
+ 
     }
     public modificarCarta(usuario: string , id: number) {
         const directorioUsuario = `./${usuario}`;
