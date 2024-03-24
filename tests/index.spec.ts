@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { execSync } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
 import { Card, Color, LineType, Rarity } from '../src/card.js';
-
+import { mostrarCartas } from '../src/index.js';
 describe('Aplicación Magic Cards', () => {
 
     it('Añadir una carta. Intento de añadir con Fuerza/Resistencia en una línea de tipo que es distinta a Criatura', () => {
@@ -89,11 +89,8 @@ describe('Aplicación Magic Cards', () => {
         expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
     });
 
-    it ('Comando list', () => {
-        const output = execSync('node dist/index.js list --user "danixps"').toString();
-        expect(output).to.eql(
-        `danixps collection\n--------------------------------\nID: 1\nName: White Panter\nManaCost: 20\nColor: incoloro\nType: planeswalker\nRarity: mítica\nRulesText: Tap to atack the enemy and gain 5 life points.\nLoyalty: 10\nMarketValue: 1234\n--------------------------------\nID: 777\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: común\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------\n`
-        );
+    it ('Listar las cartas del usuario danixps', () => {
+        expect(mostrarCartas('danixps')).to.be.equal('danixps collection\n--------------------------------\nID: 1\nName: White Panter\nManaCost: 20\nColor: incoloro\nType: planeswalker\nRarity: mítica\nRulesText: Tap to atack the enemy and gain 5 life points.\nLoyalty: 10\nMarketValue: 1234\n--------------------------------\nID: 777\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: común\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------');
     });
 
     // it ('Comando add con una nueva carta', () => {
