@@ -1,0 +1,14 @@
+{
+  "id": 7,
+  "name": "Black Lotus",
+  "manaCost": 169,
+  "color": "multicolor",
+  "type": "criatura",
+  "rarity": "rara",
+  "rulesText": "Tap to add three mana of any color to your mana pool.",
+  "marketValue": 1234,
+  "powerandtoughness": [
+    5,
+    11
+  ]
+}

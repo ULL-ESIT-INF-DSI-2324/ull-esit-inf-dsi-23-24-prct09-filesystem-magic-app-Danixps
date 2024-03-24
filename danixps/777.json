@@ -1,0 +1,11 @@
+{
+  "id": 777,
+  "name": "Lotus",
+  "manaCost": 69,
+  "color": "multicolor",
+  "type": "planeswalker",
+  "rarity": "rara",
+  "rulesText": "Tap to add three mana of any color to your mana pool.",
+  "marketValue": 1234,
+  "loyalty": 2
+}

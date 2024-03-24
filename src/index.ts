@@ -1,41 +1,16 @@
 
 import yargs from 'yargs';
 import chalk from 'chalk';
-const fs = require('fs');
+import fs from 'fs';
+import { Card, Rarity, Color, LineType } from './card.js';
 
-
-class Card {
-    constructor(
-        public id: number,
-        public name: string,
-        public manaCost: number,
-        public color: string,
-        public type: string,
-        public rarity: string,
-        public rulesText: string,
-        public marketValue: number,
-        public power?: number,
-        public toughness?: number,
-        public loyalty?: number,
-    ) {}
-}
-
-const guardarCarta = (usuario: string, carta: Card) => {
-    const directorioUsuario = `./${usuario}`;
-    if (!fs.existsSync(directorioUsuario)) {
-        fs.mkdirSync(directorioUsuario);
-    }
-    const rutaArchivo = `${directorioUsuario}/${carta.id}.json`;
-    fs.writeFileSync(rutaArchivo, JSON.stringify(carta, null, 2));
-    console.log(chalk.green('¡Carta guardada con éxito!'));
-};
 
 const cargarCartas = (usuario: string): Card[] => {
     const directorioUsuario = `./${usuario}`;
     const cartas: Card[] = [];
     if (fs.existsSync(directorioUsuario)) {
         const archivos = fs.readdirSync(directorioUsuario);
-        archivos.forEach((archivo) => {
+        archivos.forEach((archivo: any) => {
             const rutaArchivo = `${directorioUsuario}/${archivo}`;
             const cartaData = JSON.parse(fs.readFileSync(rutaArchivo, 'utf-8'));
             const carta = new Card(
@@ -46,10 +21,9 @@ const cargarCartas = (usuario: string): Card[] => {
                 cartaData.type,
                 cartaData.rarity,
                 cartaData.rulesText,
-                cartaData.power,
-                cartaData.toughness,
-                cartaData.loyalty,
-                cartaData.marketValue
+                cartaData.marketValue,
+                cartaData.powerandtoughness,
+                cartaData.loyalty
             );
             cartas.push(carta);
         });
@@ -62,6 +36,11 @@ yargs(process.argv.slice(2))
         command: 'add',
         describe: 'Añadir una carta a la colección',
         builder: {
+            user: {
+                describe: 'Usuario propietario',
+                type: 'string',
+                demandOption: true,
+            },
             id: {
                 describe: 'ID de la carta',
                 type: 'number',
@@ -97,44 +76,182 @@ yargs(process.argv.slice(2))
                 type: 'string',
                 demandOption: true,
             },
-            power: {
-                describe: 'Fuerza de la carta',
+            marketValue: {
+                describe: 'Valor de mercado',
                 type: 'number',
+                demandOption: true,
             },
-            toughness: {
-                describe: 'Resistencia de la carta',
-                type: 'number',
+            powerandtoughness: {
+                describe: 'Fuerza/Resistencia de la carta (sólo para tipo criatura)',
+                type: 'array',
             },
             loyalty: {
                 describe: 'Marcas de lealtad',
                 type: 'number',
+            },
+        },
+        handler: (argv) => {
+            if (!Object.values(Rarity).includes(argv.rarity as Rarity)) {
+                console.error(`Invalid rarity: ${argv.rarity}, change it to one of the following: ${Object.values(Rarity)} for creating a card`);
+                return;
+            }
+            if (!Object.values(Color).includes(argv.color as Color)) {
+                console.error(`Invalid color: ${argv.color}, change it to one of the following: ${Object.values(Color)} for creating a card`);
+                return;
+            }
+            if (!Object.values(LineType).includes(argv.type as LineType)) {
+                console.error(`Invalid type: ${argv.type}, change it to one of the following: ${Object.values(LineType)} for creating a card`);
+                return;
+            }
+            if (argv.powerandtoughness && argv.type !== LineType.Criatura) {
+                console.error(`Power/Toughness is only for criatura cards`);
+                return;
+            }
+            if (argv.loyalty && argv.type !== LineType.Planeswalker) {
+                console.error(`Loyalty is only for planeswalker cards`);
+                return;
+            }
+        
+            const carta = new Card(
+                argv.id,
+                argv.name,
+                argv.manaCost,
+                argv.color as Color,
+                argv.type as LineType,
+                argv.rarity as Rarity, 
+                argv.rulesText,
+                argv.marketValue,
+                argv.powerandtoughness,
+                argv.loyalty
+            );
+            carta.guardarCarta(argv.user);
+        },
+    })
+    .command({
+        command: 'update',
+        describe: 'Modificar una carta a la colección',
+        builder: {
+            user: {
+                describe: 'Usuario propietario',
+                type: 'string',
+                demandOption: true,
+            },
+            id: {
+                describe: 'ID de la carta',
+                type: 'number',
+                demandOption: true,
+            },
+            name: {
+                describe: 'Nombre de la carta',
+                type: 'string',
+                demandOption: true,
+            },
+            manaCost: {
+                describe: 'Costo de maná',
+                type: 'number',
+                demandOption: true,
+            },
+            color: {
+                describe: 'Color de la carta',
+                type: 'string',
+                demandOption: true,
+            },
+            type: {
+                describe: 'Línea de tipo',
+                type: 'string',
+                demandOption: true,
+            },
+            rarity: {
+                describe: 'Rareza de la carta',
+                type: 'string',
+                demandOption: true,
+            },
+            rulesText: {
+                describe: 'Texto de reglas',
+                type: 'string',
+                demandOption: true,
             },
             marketValue: {
                 describe: 'Valor de mercado',
                 type: 'number',
                 demandOption: true,
             },
-            user: {
-                describe: 'Usuario',
-                type: 'string',
-                demandOption: true,
+            powerandtoughness: {
+                describe: 'Fuerza/Resistencia de la carta (sólo para tipo criatura)',
+                type: 'array',
+            },
+            loyalty: {
+                describe: 'Marcas de lealtad',
+                type: 'number',
             },
         },
         handler: (argv) => {
+            if (!Object.values(Rarity).includes(argv.rarity as Rarity)) {
+                console.error(chalk.red(`Invalid rarity: ${argv.rarity}, change it to one of the following: ${Object.values(Rarity)} for creating a card`));
+                return;
+            }
+            if (!Object.values(Color).includes(argv.color as Color)) {
+                console.error(chalk.red(`Invalid color: ${argv.color}, change it to one of the following: ${Object.values(Color)} for creating a card`));
+                return;
+            }
+            if (!Object.values(LineType).includes(argv.type as LineType)) {
+                console.error(chalk.red(`Invalid type: ${argv.type}, change it to one of the following: ${Object.values(LineType)} for creating a card`));
+                return;
+            }
+            if (argv.powerandtoughness && argv.type !== LineType.Criatura) {
+                console.error(chalk.red(`Power/Toughness is only for criatura cards`));
+                return;
+            }
+            if (argv.loyalty && argv.type !== LineType.Planeswalker) {
+                console.error(chalk.red(`Loyalty is only for planeswalker cards`));
+                return;
+            }
+        
             const carta = new Card(
                 argv.id,
                 argv.name,
                 argv.manaCost,
-                argv.color,
-                argv.type,
-                argv.rarity,
+                argv.color as Color,
+                argv.type as LineType,
+                argv.rarity as Rarity, 
                 argv.rulesText,
-                argv.power,
-                argv.toughness,
-                argv.loyalty,
-                argv.marketValue
+                argv.marketValue,
+                argv.powerandtoughness,
+                argv.loyalty
             );
-            guardarCarta(argv.user, carta);
+            //comprobar que existe una carta con el id
+            carta.modificarCarta(argv.user, argv.id);
+        },
+    })
+    .command({
+        command: 'remove',
+        describe: 'Eliminar una carta de la colección',
+        builder: {
+            user: {
+                describe: 'Usuario propietario',
+                type: 'string',
+                demandOption: true,
+            },
+            id: {
+                describe: 'ID de la carta',
+                type: 'number',
+                demandOption: true,
+            },
+        },
+        handler: (argv) => {
+
+            const carta = new Card(
+                argv.id,
+                '',
+                0,
+                Color.Colorless,
+                LineType.Tierra,
+                Rarity.Common,
+                '',
+                0,
+            );
+
+            carta.eliminarcarta(argv.user, argv.id);
         },
     })
     .command({
@@ -162,8 +279,8 @@ yargs(process.argv.slice(2))
                     console.log(`Type: ${carta.type}`);
                     console.log(`Rarity: ${carta.rarity}`);
                     console.log(`RulesText: ${carta.rulesText}`);
-                    if (carta.power !== undefined && carta.toughness !== undefined) {
-                        console.log(`Power/Toughness: ${carta.power}/${carta.toughness}`);
+                    if (carta.powerandtoughness !== undefined) {
+                        console.log(`Power/Toughness: ${carta.powerandtoughness}`);
                     }
                     if (carta.loyalty !== undefined) {
                         console.log(`Loyalty: ${carta.loyalty}`);
