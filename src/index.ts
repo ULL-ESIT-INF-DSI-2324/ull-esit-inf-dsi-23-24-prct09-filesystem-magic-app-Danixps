@@ -4,7 +4,9 @@ import chalk from 'chalk';
 import { Card, Rarity, Color, LineType } from './card.js';
 import { cargarCartas, encontrarCarta } from './gestioncartas.js';
 
-
+/**
+ * Descripción: Definición de las opciones de la línea de comandos.
+ */
 const optionDefinitions = [
     {
         name: 'user',
@@ -74,15 +76,17 @@ const optionDefinitions = [
     },
 ];
 
+/**
+ * Convierte la definición de opciones en un objeto que puede ser utilizado por yargs.
+ */
 const options = optionDefinitions.reduce((acc: { [key: string]: any }, { name, describe, type, demandOption }) => {
-        acc[name] = {
-            describe,
-            type,
-            demandOption,
-        };
-        return acc;
-    }, {});
-
+    acc[name] = {
+        describe,
+        type,
+        demandOption,
+    };
+    return acc;
+}, {});
 
 yargs(process.argv.slice(2))
     .command({
@@ -90,20 +94,22 @@ yargs(process.argv.slice(2))
         describe: 'Añadir una carta a la colección',
         builder: options,
         handler: (argv) => {
-
+            /**
+             * Create a new Card object with the provided arguments.
+             */
             const carta = new Card(
                 argv.id,
                 argv.name,
                 argv.manaCost,
                 argv.color as Color,
                 argv.type as LineType,
-                argv.rarity as Rarity, 
+                argv.rarity as Rarity,
                 argv.rulesText,
                 argv.marketValue,
                 argv.powerandtoughness,
                 argv.loyalty
             );
-            if(carta.gestionarerrores() === true){
+            if (carta.gestionarerrores() === true) {
                 carta.guardarCarta(argv.user);
             }
         },
@@ -113,23 +119,24 @@ yargs(process.argv.slice(2))
         describe: 'Modificar una carta a la colección',
         builder: options,
         handler: (argv) => {
-            
-        
+            /**
+             * Crea un nuevo objeto Card con los argumentos proporcionados.
+             */
             const carta = new Card(
                 argv.id,
                 argv.name,
                 argv.manaCost,
                 argv.color as Color,
                 argv.type as LineType,
-                argv.rarity as Rarity, 
+                argv.rarity as Rarity,
                 argv.rulesText,
                 argv.marketValue,
                 argv.powerandtoughness,
                 argv.loyalty
             );
-            if(carta.gestionarerrores() === true){
+            if (carta.gestionarerrores() === true) {
                 carta.modificarCarta(argv.user);
-            } 
+            }
         },
     })
     .command({
@@ -148,7 +155,9 @@ yargs(process.argv.slice(2))
             },
         },
         handler: (argv) => {
-
+            /**
+             * Crea 
+             */
             const carta = new Card(
                 argv.id,
                 '',
@@ -167,21 +176,21 @@ yargs(process.argv.slice(2))
         command: 'read',
         describe: 'Leer una carta de la colección',
         builder: {
-          user: {
-            describe: 'Usuario propietario',
-            demandOption: true,
-            type: 'string',
-          },
-          id: {
-            describe: 'ID de la carta',
-            demandOption: true,
-            type: 'number',
-          },
+            user: {
+                describe: 'Usuario propietario',
+                demandOption: true,
+                type: 'string',
+            },
+            id: {
+                describe: 'ID de la carta',
+                demandOption: true,
+                type: 'number',
+            },
         },
         handler(argv) {
-          encontrarCarta(argv.user, argv.id);
+            encontrarCarta(argv.user, argv.id);
         },
-      })
+    })
     .command({
         command: 'list',
         describe: 'Listar las cartas de un usuario',
