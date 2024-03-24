@@ -1,4 +1,3 @@
-
 import yargs from 'yargs';
 import chalk from 'chalk';
 import { Card, Rarity, Color, LineType } from './card.js';
