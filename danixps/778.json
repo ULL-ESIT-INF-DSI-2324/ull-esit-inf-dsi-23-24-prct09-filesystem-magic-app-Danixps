@@ -1,11 +1,14 @@
 {
-  "id": 777,
-  "name": "Lotus",
+  "id": 778,
+  "name": "Black Lotus",
   "manaCost": 69,
   "color": "multicolor",
-  "type": "planeswalker",
+  "type": "criatura",
   "rarity": "rara",
   "rulesText": "Tap to add three mana of any color to your mana pool.",
   "marketValue": 1234,
-  "loyalty": 2
+  "powerandtoughness": [
+    5,
+    11
+  ]
 }

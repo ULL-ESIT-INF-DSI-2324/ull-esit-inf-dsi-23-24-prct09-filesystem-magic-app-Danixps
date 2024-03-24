@@ -53,11 +53,13 @@ export class Card {
         const rutaArchivoid = `${directorioUsuario}/${this.id}.json`;
         if (fs.existsSync(rutaArchivoid)) {
             console.error(chalk.red(`Card already exists at ${usuario} collection`));
-            return;
+            return `Card already exists at ${usuario} collection`;
         } 
         const rutaArchivo = `${directorioUsuario}/${this.id}.json`;
         fs.writeFileSync(rutaArchivo, JSON.stringify(this, null, 2));
         console.log(chalk.green(`New card saved at ${usuario} collection!`));
+        
+        return; // Add this line to return void
     }
     public modificarCarta(usuario: string , id: number) {
         const directorioUsuario = `./${usuario}`;
