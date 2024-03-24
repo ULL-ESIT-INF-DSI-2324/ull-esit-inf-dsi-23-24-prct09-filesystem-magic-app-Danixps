@@ -96,6 +96,7 @@ describe('Aplicación Magic Cards', () => {
         );
         card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
         expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
+        expect(fs.existsSync(`./danixps/777.json`)).to.be.equal(true); //creado el archivo con la carta 
     });
     it('Añadir una carta. Planeswalker con éxito', () => {
 

@@ -1,14 +1,12 @@
 import fs from 'fs';
 import { Card } from './card.js';
 
-
-
 export const cargarCartas = (usuario: string): Card[] => {
     const directorioUsuario = `./${usuario}`;
     const cartas: Card[] = [];
     if (fs.existsSync(directorioUsuario)) {
         const archivos = fs.readdirSync(directorioUsuario);
-        archivos.forEach((archivo: any) => {
+        archivos.forEach((archivo: unknown) => {
             const rutaArchivo = `${directorioUsuario}/${archivo}`;
             const cartaData = JSON.parse(fs.readFileSync(rutaArchivo, 'utf-8'));
             const carta = new Card(
@@ -28,6 +26,8 @@ export const cargarCartas = (usuario: string): Card[] => {
     }
     return cartas;
 };
+
+
 export function mostrarCartas(user: string): string {
     const cartas = cargarCartas(user);
     let cardInfo = '';
