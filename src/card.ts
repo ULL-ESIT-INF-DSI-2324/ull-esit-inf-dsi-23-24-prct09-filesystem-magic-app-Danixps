@@ -175,6 +175,7 @@ export class Card implements Card_Characteristics {
         }
     }
 
+    
     /**
      * Realiza la validación de las características de la carta.
      * @returns `true` si las características son válidas, `false` en caso contrario.
