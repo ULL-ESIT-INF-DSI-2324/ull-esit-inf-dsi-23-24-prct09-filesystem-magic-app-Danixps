@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { execSync } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
 import { Card, Color, LineType, Rarity } from '../src/card.js';
-import { mostrarCartas } from '../src/index.js';
+import { mostrarCartas } from '../src/listarcartas.js';
 describe('Aplicación Magic Cards', () => {
 
     it('Añadir una carta. Intento de añadir con Fuerza/Resistencia en una línea de tipo que es distinta a Criatura', () => {
