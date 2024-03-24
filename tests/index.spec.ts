@@ -92,45 +92,62 @@ describe('Aplicación Magic Cards', () => {
     it ('Listar las cartas del usuario danixps', () => {
         expect(mostrarCartas('danixps')).to.be.equal('danixps collection\n--------------------------------\nID: 1\nName: White Panter\nManaCost: 20\nColor: incoloro\nType: planeswalker\nRarity: mítica\nRulesText: Tap to atack the enemy and gain 5 life points.\nLoyalty: 10\nMarketValue: 1234\n--------------------------------\nID: 777\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: común\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------');
     });
+    it ('Eliminar una carta', () => {
+        const card = new Card(
+            777,
+            'Black Lotus',
+            69,
+            Color.Black,
+            LineType.Tierra,
+            Rarity.Rare,
+            'Tap to delete the enemy creature.',
+            100
+        );
+        expect(card.eliminarcarta('danixps')).to.be.equal('Card id 777 removed from danixps collection!');
+    });
+    it ('Eliminar una carta que no existe', () => {
+        const card = new Card(
+            777,
+            'Black Lotus',
+            69,
+            Color.Black,
+            LineType.Tierra,
+            Rarity.Rare,
+            'Tap to delete the enemy creature.',
+            100
+        );
+        expect(card.eliminarcarta('danixps')).to.be.equal('Card id 777 not found at danixps collection');
+    });
+    it ('Listar las cartas del usuario danixps teniendo en cuenta la carta eliminada', () => {
+        expect(mostrarCartas('danixps')).to.be.equal('danixps collection\n--------------------------------\nID: 1\nName: White Panter\nManaCost: 20\nColor: incoloro\nType: planeswalker\nRarity: mítica\nRulesText: Tap to atack the enemy and gain 5 life points.\nLoyalty: 10\nMarketValue: 1234\n--------------------------------');
+    });
 
-    // it ('Comando add con una nueva carta', () => {
-    //     execSync('node dist/index.js add --user "danixps" --id 778 --name "Black Lotus" --manaCost 69 --color "multicolor" --type "criatura" --rarity rara --rulesText "Tap to add three mana of any color to your mana pool." --marketValue 1234 --powerandtoughness 5 11');
-    //     expect(existsSync('./danixps/778.json')).to.be.true;
-    //     const cardData = JSON.parse(readFileSync('./danixps/778.json', 'utf-8'));
-    //     expect(cardData).eql({
-    //         id: 778,
-    //         name: 'Black Lotus',
-    //         manaCost: 69,
-    //         color: 'multicolor',
-    //         type: 'criatura',
-    //         rarity: 'rara',
-    //         rulesText: 'Tap to add three mana of any color to your mana pool.',
-    //         marketValue: 1234,
-    //         powerandtoughness: [5, 11]
-    // });
-    // });
-    // it ('Comando add con una carta ya existente', () => {
-    //     const cardexists = new Card(
-    //         777,
-    //         'Black Lotus',
-    //         69,
-    //         Color.Multicolor,
-    //         LineType.Criatura,
-    //         Rarity.Common,
-    //         'Tap to add three mana of any color to your mana pool.',
-    //         1234,
-    //         [5, 11]
-    //     );
-    //     expect(cardexists.guardarCarta('danixps')).to.be.equal('Card already exists at danixps collection');
-    // });
-    // it ('Comando list', () => {
-    //     const output = execSync('node dist/index.js list --user "danixps"').toString();
-    //     expect(output).to.eql(
-    //     `danixps collection\n--------------------------------\nID: 777\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: común\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------\nID: 778\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: rara\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------\n`
-    //     );
-    // });
-    // it ('Comando remove card', () => {
-    //     execSync('node dist/index.js remove --user "danixps" --id 777');
-    //     expect(existsSync('./danixps/777.json')).to.be.false;
-    // });
+    it ('Actualizar una carta que no existe', () => {
+        const card = new Card(
+            777,
+            'Black Lotus',
+            69,
+            Color.Black,
+            LineType.Tierra,
+            Rarity.Rare,
+            'Tap to delete the enemy creature.',
+            100
+        );
+        expect(card.modificarCarta('danixps')).to.be.equal('Card not found at danixps collection');
+    });
+    it ('Actualizar una carta que existe', () => {
+        const card = new Card(
+            1,
+            'White Panter',
+            20,
+            Color.Colorless,
+            LineType.Planeswalker,
+            Rarity.Mythic,
+            'Tap to atack the enemy and gain 5 life points.',
+            1234,
+            undefined,
+            10 //puntos loyalty
+        );
+        expect(card.modificarCarta('danixps')).to.be.equal('Card updated at danixps collection!');
+    });
 });

@@ -108,20 +108,28 @@ export class Card implements Card_Characteristics {
         const rutaArchivoid = `${directorioUsuario}/${this.id}.json`;
         if (!fs.existsSync(rutaArchivoid)) {
             console.error(chalk.red(`Card not found at ${usuario} collection`));
-            return;
+            const result = `Card not found at ${usuario} collection`;
+            return result;
         } 
         const rutaArchivo = `${directorioUsuario}/${this.id}.json`;
         fs.writeFileSync(rutaArchivo, JSON.stringify(this, null, 2));
         console.log(chalk.green(`Card updated at ${usuario} collection!`));
+        const result = `Card updated at ${usuario} collection!`;
+        return result;
     }
     public eliminarcarta(usuario: string) {
         const directorioUsuario = `./${usuario}`;
             const rutaArchivo = `${directorioUsuario}/${this.id}.json`;
+            
             if (fs.existsSync(rutaArchivo)) {
                 fs.unlinkSync(rutaArchivo);
                 console.log(chalk.green(`Card id ${this.id} removed from ${usuario} collection!`));
+                const result = `Card id ${this.id} removed from ${usuario} collection!`;
+                return result;
             } else {
                 console.error(chalk.red(`Card id ${this.id} not found at ${usuario} collection`));
+                const result = `Card id ${this.id} not found at ${usuario} collection`;
+                return result;
             }
     }
 }
