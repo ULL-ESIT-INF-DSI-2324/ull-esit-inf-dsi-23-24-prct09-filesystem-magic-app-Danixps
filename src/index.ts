@@ -4,7 +4,9 @@ import chalk from 'chalk';
 import { Card, Rarity, Color, LineType } from './card.js';
 import { cargarCartas } from './gestioncartas.js';
 
-
+function createOption(description: string, type: string, demandOption = true) {
+    return { describe, type, demandOption };
+}
 
 yargs(process.argv.slice(2))
     .command({
@@ -141,26 +143,7 @@ yargs(process.argv.slice(2))
             },
         },
         handler: (argv) => {
-            if (!Object.values(Rarity).includes(argv.rarity as Rarity)) {
-                console.error(chalk.red(`Invalid rarity: ${argv.rarity}, change it to one of the following: ${Object.values(Rarity)} for creating a card`));
-                return;
-            }
-            if (!Object.values(Color).includes(argv.color as Color)) {
-                console.error(chalk.red(`Invalid color: ${argv.color}, change it to one of the following: ${Object.values(Color)} for creating a card`));
-                return;
-            }
-            if (!Object.values(LineType).includes(argv.type as LineType)) {
-                console.error(chalk.red(`Invalid type: ${argv.type}, change it to one of the following: ${Object.values(LineType)} for creating a card`));
-                return;
-            }
-            if (argv.powerandtoughness && argv.type !== LineType.Criatura) {
-                console.error(chalk.red(`Power/Toughness is only for criatura cards`));
-                return;
-            }
-            if (argv.loyalty && argv.type !== LineType.Planeswalker) {
-                console.error(chalk.red(`Loyalty is only for planeswalker cards`));
-                return;
-            }
+            
         
             const carta = new Card(
                 argv.id,
@@ -174,7 +157,9 @@ yargs(process.argv.slice(2))
                 argv.powerandtoughness,
                 argv.loyalty
             );
-            carta.modificarCarta(argv.user);
+            if(carta.gestionarerrores() === true){
+                carta.modificarCarta(argv.user);
+            } 
         },
     })
     .command({

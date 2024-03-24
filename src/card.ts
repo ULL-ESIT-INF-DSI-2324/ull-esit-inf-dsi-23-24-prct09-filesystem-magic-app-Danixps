@@ -132,4 +132,27 @@ export class Card implements Card_Characteristics {
                 return result;
             }
     }
+    public gestionarerrores() {
+        if (!Object.values(Rarity).includes(this.rarity as Rarity)) {
+            console.error(chalk.red(`Invalid rarity: ${this.rarity}, change it to one of the following: ${Object.values(Rarity)} for creating a card`));
+            return false;
+        }
+        if (!Object.values(Color).includes(this.color as Color)) {
+            console.error(chalk.red(`Invalid color: ${this.color}, change it to one of the following: ${Object.values(Color)} for creating a card`));
+            return false;
+        }
+        if (!Object.values(LineType).includes(this.type as LineType)) {
+            console.error(chalk.red(`Invalid type: ${this.type}, change it to one of the following: ${Object.values(LineType)} for creating a card`));
+            return false;
+        }
+        if (this.powerandtoughness && this.type !== LineType.Criatura) {
+            console.error(chalk.red(`Power/Toughness is only for criatura cards`));
+            return false;
+        }
+        if (this.loyalty && this.type !== LineType.Planeswalker) {
+            console.error(chalk.red(`Loyalty is only for planeswalker cards`));
+            return false;
+        }
+        return true;
+    }
 }
