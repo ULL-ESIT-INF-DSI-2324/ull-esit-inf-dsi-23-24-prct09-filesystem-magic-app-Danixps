@@ -1,6 +1,9 @@
 import fs from 'fs';
 import chalk from 'chalk';
 
+/**
+ * Descripcion: Enumerado de rareza de cartas
+ */
 export enum Rarity {
     Common = 'común',
     Uncommon = 'infrecuente',
@@ -8,7 +11,9 @@ export enum Rarity {
     Mythic = 'mítica'
 }
 
-
+/**
+ * Descripcion: Enumerado de colores de cartas
+ */
 export enum Color {
     White = 'blanco',
     Blue = 'azul',
@@ -19,6 +24,9 @@ export enum Color {
     Multicolor = 'multicolor'
 }
 
+/**
+ * Descripcion: Enumerado de la Linea de tipo
+ */
 export enum LineType {
     Tierra = 'tierra',
     Criatura = 'criatura',
@@ -29,6 +37,9 @@ export enum LineType {
     Planeswalker = 'planeswalker'
 }
 
+/**
+ * Descripcion: La interfaz card
+ */
 export interface Card_Characteristics {
     id: number,
     color: Color,

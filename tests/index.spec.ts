@@ -233,9 +233,12 @@ describe('Aplicación Magic Cards', () => {
         expect(card.modificarCarta('danixps')).to.be.equal('Card not found at danixps collection');
       });
     it ('Lee una carta que no existe', () => {
+        expect(fs.existsSync(`./danixps/777.json`)).to.be.equal(false); //no se ha creado el archivo con la carta
         expect(encontrarCarta('danixps', 777)).to.be.equal('Card not found at danixps collection!');
     });
     it ('Lee una carta que existe', () => {
+        expect(fs.existsSync(`./danixps/1.json`)).to.be.equal(true); //ya se había creado el archivo con la carta
         expect(encontrarCarta('danixps', 1)).to.be.equal('ID: 1\nName: White Panter\nManaCost: 20\nColor: incoloro\nType: planeswalker\nRarity: mítica\nRulesText: Tap to atack the enemy and gain 5 life points.\nLoyalty: 10\nMarketValue: 1234');
     });
+    
 });
