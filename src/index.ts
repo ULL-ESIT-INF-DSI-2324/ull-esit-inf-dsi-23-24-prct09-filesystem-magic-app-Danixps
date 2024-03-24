@@ -3,66 +3,92 @@ import yargs from 'yargs';
 import chalk from 'chalk';
 import { Card, Rarity, Color, LineType } from './card.js';
 import { cargarCartas } from './gestioncartas.js';
+;
+
+const optionDefinitions = [
+    {
+        name: 'user',
+        describe: 'Usuario propietario',
+        type: 'string',
+        demandOption: true,
+    },
+    {
+        name: 'id',
+        describe: 'ID de la carta',
+        type: 'number',
+        demandOption: true,
+    },
+    {
+        name: 'name',
+        describe: 'Nombre de la carta',
+        type: 'string',
+        demandOption: true,
+    },
+    {
+        name: 'manaCost',
+        describe: 'Costo de maná',
+        type: 'number',
+        demandOption: true,
+    },
+    {
+        name: 'color',
+        describe: 'Color de la carta',
+        type: 'string',
+        demandOption: true,
+    },
+    {
+        name: 'type',
+        describe: 'Línea de tipo',
+        type: 'string',
+        demandOption: true,
+    },
+    {
+        name: 'rarity',
+        describe: 'Rareza de la carta',
+        type: 'string',
+        demandOption: true,
+    },
+    {
+        name: 'rulesText',
+        describe: 'Texto de reglas',
+        type: 'string',
+        demandOption: true,
+    },
+    {
+        name: 'marketValue',
+        describe: 'Valor de mercado',
+        type: 'number',
+        demandOption: true,
+    },
+    {
+        name: 'powerandtoughness',
+        describe: 'Fuerza/Resistencia de la carta (sólo para tipo criatura)',
+        type: 'array',
+        demandOption: false,
+    },
+    {
+        name: 'loyalty',
+        describe: 'Marcas de lealtad',
+        type: 'number',
+        demandOption: false,
+    },
+];
+
+const options = optionDefinitions.reduce((acc: { [key: string]: any }, { name, describe, type, demandOption }) => {
+        acc[name] = {
+            describe,
+            type,
+            demandOption,
+        };
+        return acc;
+    }, {});
+
 
 yargs(process.argv.slice(2))
     .command({
         command: 'add',
         describe: 'Añadir una carta a la colección',
-        builder: {
-            user: {
-                describe: 'Usuario propietario',
-                type: 'string',
-                demandOption: true,
-            },
-            id: {
-                describe: 'ID de la carta',
-                type: 'number',
-                demandOption: true,
-            },
-            name: {
-                describe: 'Nombre de la carta',
-                type: 'string',
-                demandOption: true,
-            },
-            manaCost: {
-                describe: 'Costo de maná',
-                type: 'number',
-                demandOption: true,
-            },
-            color: {
-                describe: 'Color de la carta',
-                type: 'string',
-                demandOption: true,
-            },
-            type: {
-                describe: 'Línea de tipo',
-                type: 'string',
-                demandOption: true,
-            },
-            rarity: {
-                describe: 'Rareza de la carta',
-                type: 'string',
-                demandOption: true,
-            },
-            rulesText: {
-                describe: 'Texto de reglas',
-                type: 'string',
-                demandOption: true,
-            },
-            marketValue: {
-                describe: 'Valor de mercado',
-                type: 'number',
-                demandOption: true,
-            },
-            powerandtoughness: {
-                describe: 'Fuerza/Resistencia de la carta (sólo para tipo criatura)',
-                type: 'array',
-            },
-            loyalty: {
-                describe: 'Marcas de lealtad',
-                type: 'number',
-            },
-        },
+        builder: options,
         handler: (argv) => {
 
             const carta = new Card(
@@ -85,61 +111,7 @@ yargs(process.argv.slice(2))
     .command({
         command: 'update',
         describe: 'Modificar una carta a la colección',
-        builder: {
-            user: {
-                describe: 'Usuario propietario',
-                type: 'string',
-                demandOption: true,
-            },
-            id: {
-                describe: 'ID de la carta',
-                type: 'number',
-                demandOption: true,
-            },
-            name: {
-                describe: 'Nombre de la carta',
-                type: 'string',
-                demandOption: true,
-            },
-            manaCost: {
-                describe: 'Costo de maná',
-                type: 'number',
-                demandOption: true,
-            },
-            color: {
-                describe: 'Color de la carta',
-                type: 'string',
-                demandOption: true,
-            },
-            type: {
-                describe: 'Línea de tipo',
-                type: 'string',
-                demandOption: true,
-            },
-            rarity: {
-                describe: 'Rareza de la carta',
-                type: 'string',
-                demandOption: true,
-            },
-            rulesText: {
-                describe: 'Texto de reglas',
-                type: 'string',
-                demandOption: true,
-            },
-            marketValue: {
-                describe: 'Valor de mercado',
-                type: 'number',
-                demandOption: true,
-            },
-            powerandtoughness: {
-                describe: 'Fuerza/Resistencia de la carta (sólo para tipo criatura)',
-                type: 'array',
-            },
-            loyalty: {
-                describe: 'Marcas de lealtad',
-                type: 'number',
-            },
-        },
+        builder: options,
         handler: (argv) => {
             
         
@@ -163,18 +135,7 @@ yargs(process.argv.slice(2))
     .command({
         command: 'remove',
         describe: 'Eliminar una carta de la colección',
-        builder: {
-            user: {
-                describe: 'Usuario propietario',
-                type: 'string',
-                demandOption: true,
-            },
-            id: {
-                describe: 'ID de la carta',
-                type: 'number',
-                demandOption: true,
-            },
-        },
+        builder: options,
         handler: (argv) => {
 
             const carta = new Card(
