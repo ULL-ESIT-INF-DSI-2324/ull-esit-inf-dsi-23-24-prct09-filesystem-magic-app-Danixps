@@ -2,8 +2,8 @@
 import yargs from 'yargs';
 import chalk from 'chalk';
 import { Card, Rarity, Color, LineType } from './card.js';
-import { cargarCartas } from './gestioncartas.js';
-;
+import { cargarCartas, encontrarCarta } from './gestioncartas.js';
+
 
 const optionDefinitions = [
     {
@@ -135,7 +135,18 @@ yargs(process.argv.slice(2))
     .command({
         command: 'remove',
         describe: 'Eliminar una carta de la colección',
-        builder: options,
+        builder: {
+            user: {
+                describe: 'Usuario propietario',
+                demandOption: true,
+                type: 'string',
+            },
+            id: {
+                describe: 'ID de la carta',
+                demandOption: true,
+                type: 'number',
+            },
+        },
         handler: (argv) => {
 
             const carta = new Card(
@@ -152,6 +163,25 @@ yargs(process.argv.slice(2))
             carta.eliminarcarta(argv.user);
         },
     })
+    .command({
+        command: 'read',
+        describe: 'Leer una carta de la colección',
+        builder: {
+          user: {
+            describe: 'Usuario propietario',
+            demandOption: true,
+            type: 'string',
+          },
+          id: {
+            describe: 'ID de la carta',
+            demandOption: true,
+            type: 'number',
+          },
+        },
+        handler(argv) {
+          encontrarCarta(argv.user, argv.id);
+        },
+      })
     .command({
         command: 'list',
         describe: 'Listar las cartas de un usuario',

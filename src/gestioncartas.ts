@@ -51,3 +51,27 @@ export function mostrarCartas(user: string): string {
 
     return cardInfo;
 }
+export function encontrarCarta(user: string, id: number): string {
+    if (typeof user === 'string' && typeof id === 'number') {
+        const cards = cargarCartas(user);
+        const card = cards.find(card => card.id === id);
+        let result = '';
+        if (card) {
+          result += `ID: ${card.id}\nName: ${card.name}\nManaCost: ${card.manaCost}\nColor: ${card.color}\nType: ${card.type}\nRarity: ${card.rarity}\nRulesText: ${card.rulesText}`;
+          if (card.powerandtoughness !== undefined) {
+            result += `\nPower/Toughness: ${card.powerandtoughness}`;
+          }
+          if (card.loyalty !== undefined) {
+            result += `\nLoyalty: ${card.loyalty}`;
+          }
+            result += `\nMarketValue: ${card.marketValue}`;
+        } else {
+          console.log(`Card not found at ${user} collection!`);
+            result = `Card not found at ${user} collection!`;
+            return result;
+        }
+        console.log(result);
+        return result;
+      }
+    return 'Invalid input';
+}
