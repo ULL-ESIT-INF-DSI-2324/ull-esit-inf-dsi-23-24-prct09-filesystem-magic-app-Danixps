@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "name": "White Panter",
+  "manaCost": 20,
+  "color": "incoloro",
+  "type": "artefacto",
+  "rarity": "mítica",
+  "rulesText": "Tap to atack the enemy and gain 5 life points.",
+  "marketValue": 1234
+}

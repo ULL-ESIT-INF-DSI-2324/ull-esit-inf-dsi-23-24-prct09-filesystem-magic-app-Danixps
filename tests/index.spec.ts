@@ -5,23 +5,8 @@ import { existsSync, readFileSync } from 'fs';
 import { Card, Color, LineType, Rarity } from '../src/card.js';
 
 describe('Aplicación Magic Cards', () => {
-    it('Añadir una carta 1', () => {
 
-        const card = new Card(
-            777,
-            'Black Lotus',
-            69,
-            Color.Multicolor,
-            LineType.Criatura,
-            Rarity.Common,
-            'Tap to add three mana of any color to your mana pool.',
-            1234,
-            [5, 11]
-        );
-        card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
-        expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
-    });
-    it('Añadir una carta 2. Intento de añadir con Fuerza/Resistencia en una línea de tipo que es distinta a criatura', () => {
+    it('Añadir una carta. Intento de añadir con Fuerza/Resistencia en una línea de tipo que es distinta a Criatura', () => {
 
         const card = new Card(
             1,
@@ -37,6 +22,57 @@ describe('Aplicación Magic Cards', () => {
         card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
         expect(card.guardarCarta('danixps')).to.be.equal('Power/Toughness is only for criatura cards'); //ahora si se añade por primera vez
     });
+    it('Añadir una carta. Intento de añadir con Lealtad en una línea de tipo que es distinta a Planeswalker', () => {
+
+        const card = new Card(
+            1,
+            'Black Lotus',
+            69,
+            Color.Multicolor,
+            LineType.Criatura,
+            Rarity.Common,
+            'Tap to add three mana of any color to your mana pool.',
+            1234,
+            [5, 11], 
+            10 //puntos loyalty
+
+        );
+        card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
+        expect(card.guardarCarta('danixps')).to.be.equal('Loyalty is only for planeswalker cards'); //ahora si se añade por primera vez
+    });
+    it('Añadir una carta. Con éxito', () => {
+
+        const card = new Card(
+            777,
+            'Black Lotus',
+            69,
+            Color.Multicolor,
+            LineType.Criatura,
+            Rarity.Common,
+            'Tap to add three mana of any color to your mana pool.',
+            1234,
+            [5, 11]
+        );
+        card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
+        expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
+    });
+    it('Añadir una carta. Con éxito', () => {
+
+        const card = new Card(
+            1,
+            'White Panter',
+            20,
+            Color.Colorless,
+            LineType.Artefacto,
+            Rarity.Mythic,
+            'Tap to atack the enemy and gain 5 life points.',
+            1234
+        );
+        card.eliminarcarta('danixps'); //por si existiera de ejecutar los test alguna vez antes
+        expect(card.guardarCarta('danixps')).to.be.equal('New card saved at danixps collection!'); //ahora si se añade por primera vez
+    });
+    
+
     // it ('Comando add con una nueva carta', () => {
     //     execSync('node dist/index.js add --user "danixps" --id 778 --name "Black Lotus" --manaCost 69 --color "multicolor" --type "criatura" --rarity rara --rulesText "Tap to add three mana of any color to your mana pool." --marketValue 1234 --powerandtoughness 5 11');
     //     expect(existsSync('./danixps/778.json')).to.be.true;
