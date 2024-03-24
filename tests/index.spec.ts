@@ -5,6 +5,27 @@ import { existsSync, readFileSync } from 'fs';
 import { Card, Color, LineType, Rarity } from '../src/card.js';
 import { mostrarCartas } from '../src/gestioncartas.js';
 describe('Aplicación Magic Cards', () => {
+    it('Creación de una carta', () => {
+        const card = new Card(
+            1,
+            'Black Lotus',
+            69,
+            Color.Black,
+            LineType.Tierra,
+            Rarity.Rare,
+            'Tap to delete the enemy creature.',
+            100
+        );
+        expect(card.id).to.be.equal(1);
+        expect(card.name).to.be.equal('Black Lotus');
+        expect(card.manaCost).to.be.equal(69);
+        expect(card.color).to.be.equal(Color.Black);
+        expect(card.type).to.be.equal(LineType.Tierra);
+        expect(card.rarity).to.be.equal(Rarity.Rare);
+        expect(card.rulesText).to.be.equal('Tap to delete the enemy creature.');
+        expect(card.marketValue).to.be.equal(100);
+        expect(card).instanceOf(Card);
+    });
 
     it('Añadir una carta. Intento de añadir con Fuerza/Resistencia en una línea de tipo que es distinta a Criatura', () => {
 
