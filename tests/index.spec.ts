@@ -52,14 +52,14 @@ describe('Comandos de la aplicación', () => {
         );
         expect(cardexists.guardarCarta('danixps')).to.be.equal('Card already exists at danixps collection');
     });
-    // it ('Comando list', () => {
-    //     const output = execSync('node dist/index.js list --user "danixps"').toString();
-    //     expect(output).to.eql(
-    //     `danixps collection\n--------------------------------\nID: 777\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: rara\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------\nID: 778\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: rara\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------\n`
-    //     );
-    // });
-    // it ('Comando remove card', () => {
-    //     execSync('node dist/index.js remove --user "danixps" --id 777');
-    //     expect(existsSync('./danixps/777.json')).to.be.false;
-    // });
+    it ('Comando list', () => {
+        const output = execSync('node dist/index.js list --user "danixps"').toString();
+        expect(output).to.eql(
+        `danixps collection\n--------------------------------\nID: 777\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: rara\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------\nID: 778\nName: Black Lotus\nManaCost: 69\nColor: multicolor\nType: criatura\nRarity: rara\nRulesText: Tap to add three mana of any color to your mana pool.\nPower/Toughness: 5,11\nMarketValue: 1234\n--------------------------------\n`
+        );
+    });
+    it ('Comando remove card', () => {
+        execSync('node dist/index.js remove --user "danixps" --id 777');
+        expect(existsSync('./danixps/777.json')).to.be.false;
+    });
 });
