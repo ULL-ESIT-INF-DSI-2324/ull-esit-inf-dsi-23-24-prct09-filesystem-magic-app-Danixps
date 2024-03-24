@@ -1,35 +1,10 @@
 
 import yargs from 'yargs';
 import chalk from 'chalk';
-import fs from 'fs';
 import { Card, Rarity, Color, LineType } from './card.js';
+import { cargarCartas } from './gestioncartas.js';
 
 
-export const cargarCartas = (usuario: string): Card[] => {
-    const directorioUsuario = `./${usuario}`;
-    const cartas: Card[] = [];
-    if (fs.existsSync(directorioUsuario)) {
-        const archivos = fs.readdirSync(directorioUsuario);
-        archivos.forEach((archivo: any) => {
-            const rutaArchivo = `${directorioUsuario}/${archivo}`;
-            const cartaData = JSON.parse(fs.readFileSync(rutaArchivo, 'utf-8'));
-            const carta = new Card(
-                cartaData.id,
-                cartaData.name,
-                cartaData.manaCost,
-                cartaData.color,
-                cartaData.type,
-                cartaData.rarity,
-                cartaData.rulesText,
-                cartaData.marketValue,
-                cartaData.powerandtoughness,
-                cartaData.loyalty
-            );
-            cartas.push(carta);
-        });
-    }
-    return cartas;
-};
 
 yargs(process.argv.slice(2))
     .command({
