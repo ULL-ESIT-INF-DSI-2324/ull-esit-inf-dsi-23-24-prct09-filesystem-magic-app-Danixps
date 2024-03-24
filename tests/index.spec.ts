@@ -171,4 +171,46 @@ describe('Aplicación Magic Cards', () => {
         );
         expect(card.modificarCarta('danixps')).to.be.equal('Card updated at danixps collection!');
     });
+    it ('Actualizar una carta que existe. Cambio de tipo a Criatura', () => {
+        const card = new Card(
+            1,
+            'White Panter',
+            20,
+            Color.Colorless,
+            LineType.Criatura,
+            Rarity.Mythic,
+            'Tap to atack the enemy and gain 5 life points.',
+            1234,
+            [5, 11]
+        );
+        expect(card.modificarCarta('danixps')).to.be.equal('Card updated at danixps collection!');
+    });
+    it ('Actualizar una carta que existe. Cambio de tipo a Planeswalker', () => {
+        const card = new Card(
+            1,
+            'White Panter',
+            20,
+            Color.Colorless,
+            LineType.Planeswalker,
+            Rarity.Mythic,
+            'Tap to atack the enemy and gain 5 life points.',
+            1234,
+            undefined,
+            10 //puntos loyalty
+        );
+        expect(card.modificarCarta('danixps')).to.be.equal('Card updated at danixps collection!');
+    });
+    it('Actualizar una carta que no existe.', () => {
+        const card = new Card(
+            777,
+            'Black Lotus',
+            69,
+            Color.Black,
+            LineType.Tierra,
+            Rarity.Rare,
+            'Tap to delete the enemy creature.',
+            100
+        );
+        expect(card.modificarCarta('danixps')).to.be.equal('Card not found at danixps collection');
+      });
 });

@@ -4,10 +4,6 @@ import chalk from 'chalk';
 import { Card, Rarity, Color, LineType } from './card.js';
 import { cargarCartas } from './gestioncartas.js';
 
-function createOption(description: string, type: string, demandOption = true) {
-    return { describe, type, demandOption };
-}
-
 yargs(process.argv.slice(2))
     .command({
         command: 'add',
@@ -81,7 +77,9 @@ yargs(process.argv.slice(2))
                 argv.powerandtoughness,
                 argv.loyalty
             );
-            carta.guardarCarta(argv.user);
+            if(carta.gestionarerrores() === true){
+                carta.guardarCarta(argv.user);
+            }
         },
     })
     .command({
